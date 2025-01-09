@@ -5,5 +5,6 @@
         "board/esp32c3-builtin.cfg"
     ],
     "idf.portWin": "COM7",
-    "idf.toolsPathWin": "C:\\Users\\lasse\\.espressif"
+    "idf.toolsPathWin": "C:\\Users\\lasse\\.espressif",
+    "idf.flashType": "UART"
 }
