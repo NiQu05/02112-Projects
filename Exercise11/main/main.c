@@ -12,14 +12,6 @@
 
 #define tag "Exercise 11"
 
-/* static TimerHandle_t one_shot_timer = NULL;
-
-void myTimerCallback(TimerHandle_txTimer)
-{
-    gpio_set_level(GPIO_PIN, 0);
-    ESP_LOGI(tag, "One-shot timer of %d seconds finished.", DELAY);
-} */
-
 void app_main(void)
 {
     // From Demo project
@@ -37,15 +29,38 @@ void app_main(void)
     gpio_set_level(GPIO_PIN, 0);
     ESP_LOGI(tag, "One-shot timer of %d seconds finished.", DELAY);
 
-    /* one_shot_timer = xTimerCreate("One-shot timer",                    // Name of timer
+#ifdef HRT
+    int time_before, time_after;
+
+    // Get time at start of task
+    time_before = esp_timer_get_time();
+    // Task is blink LED 5 times
+    for (size_t i = 0; i < 5; i++)
+    {
+        gpio_set_level(GPIO_PIN, 1);
+        vTaskDelay(500 / portTICK_PERIOD_MS);
+        gpio_set_level(GPIO_PIN, 0);
+    }
+    // Get time after task
+    time_after = esp_timer_get_time();
+
+    // Print elapsed time
+    ESP_LOGI(tag, "Elapsed time: %d microseconds", (time_after - time_before));
+#endif
+}
+
+/* static TimerHandle_t one_shot_timer = NULL;
+
+void myTimerCallback(TimerHandle_txTimer)
+{
+    gpio_set_level(GPIO_PIN, 0);
+    ESP_LOGI(tag, "One-shot timer of %d seconds finished.", DELAY);
+}
+
+    one_shot_timer = xTimerCreate("One-shot timer",                    // Name of timer
                                   (DELAY * 1000) / portTICK_PERIOD_MS, // Period of timer (in ticks)
                                   pdFALSE,                             // Auto-reload
                                   (void *)0,                           // Timer ID
                                   myTimerCallback);                    // Callback function
 
     xTimerStart(one_shot_timer, portMAX_DELAY); */
-
-#elif HRT
-
-#endif
-}
