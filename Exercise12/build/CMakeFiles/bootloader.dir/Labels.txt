@@ -1,13 +1,13 @@
 # Target labels
  bootloader
 # Source files and their labels
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/CMakeFiles/bootloader
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/CMakeFiles/bootloader.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/CMakeFiles/bootloader-complete.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
-C:/Users/lasse/Documents/GitHub/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/CMakeFiles/bootloader
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/CMakeFiles/bootloader.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/CMakeFiles/bootloader-complete.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/nn/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/02112-Embedded_systems_programming/02112-Projects/Exercise12/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
