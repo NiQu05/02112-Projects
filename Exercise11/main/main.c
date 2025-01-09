@@ -3,6 +3,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
+#include "esp_timer.h"
 
 #define BLINK
 #define HRT
@@ -28,6 +29,7 @@ void app_main(void)
     vTaskDelay((DELAY * 1000) / portTICK_PERIOD_MS);
     gpio_set_level(GPIO_PIN, 0);
     ESP_LOGI(tag, "One-shot timer of %d seconds finished.", DELAY);
+#endif
 
 #ifdef HRT
     int time_before, time_after;
