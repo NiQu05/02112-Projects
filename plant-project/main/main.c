@@ -1,15 +1,7 @@
-#include <stdio.h>
-#include <stdio.h>
-#include "sdkconfig.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_chip_info.h"
-#include "esp_flash.h"
-#include <string.h>
-#include "esp_log.h"
-
+#include "modules/config.h"
 #include "modules/alarm.h"
 #include "modules/sensor.h"
+#include "modules/screen.h"
 
 float airTemperatur = 0;
 float airHumidity = 0;
@@ -20,7 +12,7 @@ int lightValue = 0;
 // Task to update the sensor values
 void VALUE_UPDATE()
 {
-    while(1)
+    while (1)
     {
         airTemperatur = get_temperatur();
         airHumidity = get_humidity();
@@ -33,10 +25,11 @@ void VALUE_UPDATE()
 
 void app_main(void)
 {
-    alarm_setup();
+    config_setup();
 
     xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
     xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 1, NULL);
     xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 1, NULL);
     xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 1, NULL);
+    //xTaskCreate(menu_air_temperature, "menu_air_temperature", 4096, &airTemperatur, 1, NULL);
 }

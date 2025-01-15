@@ -1,15 +1,6 @@
-#ifndef BITMAPS_H
-#define BITMAPS_H
-#include <stdint.h>
-
-extern uint8_t thermostat_map[];
-extern uint8_t humidity_map[];
-extern uint8_t temp_eco_map[];
-extern uint8_t water_soil_map[];
-
-#endif
-/* #ifndef BITMAPS_H
-#define BITMAPS_H
+#ifndef BITMAPS_C
+#define BITMAPS_C
+#include "modules/bitmaps.h"
 
 uint8_t thermostat_map[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
@@ -215,4 +206,4 @@ uint8_t water_soil_map[] = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 };
 
-#endif */
+#endif

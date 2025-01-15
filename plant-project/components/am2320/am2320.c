@@ -42,7 +42,7 @@
 
 #define I2C_FREQ_HZ (100000) // 100kHz
 
-static const char *TAG = "am2320";
+static const char *TAG = "[AM2320]";
 
 #define MODBUS_READ (0x03)
 
