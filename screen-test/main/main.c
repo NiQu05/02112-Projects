@@ -15,7 +15,7 @@
 #include <am2320.h>
 #include "Adafruit_Stemma_soil_sensor.h"
 
-#include "bitmaps.h"
+#include "modules/bitmaps.h"
 
 #define I2C_MASTER_FREQ_HZ 50000 //Reduce it to 50000 if the temperature/umidity sensor fails
 #define I2C_MASTER_TX_BUF_DISABLE 0
@@ -39,26 +39,35 @@ void display_init(){
     ssd1306_contrast(&dev, 0xff);
 }
 
-void menu_air_temperature(int temp){
-    ssd1306_clear_screen(&dev, false);
-
+void update_screen_data(uint8_t value, char format[], uint8_t icon[288]){
     static char buffer[24];
-    snprintf(buffer, sizeof(buffer), "  %dC", temp);
-
-    ssd1306_display_text(&dev, 0, "  Temperature   ", 16, false);
+    snprintf(buffer, sizeof(buffer), format, value);
     ssd1306_display_text_x3(&dev, 4, buffer, 24, false);
-    ssd1306_bitmaps(&dev, ICON_X, ICON_Y, thermostat_map, 48, 48, false);
+    ssd1306_bitmaps(&dev, ICON_X, ICON_Y, icon, 48, 48, false);
 }
 
-void menu_air_humidity(int humidity){
+void menu_air_temperature(uint8_t temperatur){
     ssd1306_clear_screen(&dev, false);
+    ssd1306_display_text(&dev, 0, "  Temperature   ", 16, false);
+    update_screen_data(temperatur, "  %dC", thermostat_map);
+}
 
-    static char buffer[24];
-    snprintf(buffer, sizeof(buffer), "  %d%%", humidity);
-
+void menu_air_humidity(uint8_t humidity){
+    ssd1306_clear_screen(&dev, false);
     ssd1306_display_text(&dev, 0, "    Humidity    ", 16, false);
-    ssd1306_display_text_x3(&dev, 4, buffer, 24, false);
-    ssd1306_bitmaps(&dev, ICON_X, ICON_Y, humidity_map, 48, 48, false);
+    update_screen_data(humidity, "  %d%%", humidity_map);
+}
+
+void menu_soil_temperature(uint8_t soil_temperatur){
+    ssd1306_clear_screen(&dev, false);
+    ssd1306_display_text(&dev, 0, "Soil Temperature", 16, false);
+    update_screen_data(soil_temperatur, "  %dC", temp_eco_map);
+}
+
+void menu_soil_moisture(uint8_t soil_moisture){
+    ssd1306_clear_screen(&dev, false);
+    ssd1306_display_text(&dev, 0, "  Soil Moisture ", 16, false);
+    update_screen_data(soil_moisture, "  %d%%", water_soil_map);
 }
 
 void app_main(void)
@@ -81,4 +90,12 @@ void app_main(void)
     menu_air_temperature(28);
     vTaskDelay(2000/portTICK_PERIOD_MS);
     menu_air_humidity(47);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+    update_screen_data(48, "  %d%%", humidity_map);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+    update_screen_data(70, "  %d%%", humidity_map);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+    menu_soil_temperature(30);
+    vTaskDelay(2000/portTICK_PERIOD_MS);
+    menu_soil_moisture(10);
 }
