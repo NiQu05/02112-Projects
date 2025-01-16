@@ -6,7 +6,7 @@ SSD1306_t screenDevice;
 
 void config_setup()
 {
-    //i2c_setup();
+    i2c_setup();
     // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     // Alarm and LED setup

@@ -6,6 +6,7 @@ int get_lightvalue(){
 }
 
 float get_temperatur(){
+    air_sensor_init();
     float temperature;
     esp_err_t result = am2320_get_rht(&i2c_am2320, &temperature, NULL);
 
@@ -20,6 +21,7 @@ float get_temperatur(){
 }
 
 float get_humidity(){
+    air_sensor_init();
     float humidity;
     esp_err_t result = am2320_get_rht(&i2c_am2320, NULL, &humidity);
 
@@ -34,6 +36,7 @@ float get_humidity(){
 }
 
 float get_soil_temperatur(){
+    air_sensor_init();
     float temperatur = 0;
     esp_err_t result = adafruit_stemma_soil_sensor_read_temperature(I2C_NUM, &temperatur);
 
@@ -47,6 +50,7 @@ float get_soil_temperatur(){
 }
 
 uint16_t get_soil_moisture(){
+    air_sensor_init();
     uint16_t moisture = 0;
     esp_err_t result = adafruit_stemma_soil_sensor_read_moisture(I2C_NUM, &moisture);
 
