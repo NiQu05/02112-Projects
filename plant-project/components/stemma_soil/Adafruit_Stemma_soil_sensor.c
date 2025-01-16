@@ -20,7 +20,7 @@
 #define ACK_VAL I2C_MASTER_ACK
 #define NACK_VAL I2C_MASTER_NACK
 
-static const char *TAG = "ADAFRUIT_STEMMA_SOIL_SENSOR_H";
+static const char *TAG = "[SOIL_SENSOR]";
 
 esp_err_t adafruit_stemma_soil_sensor_init(i2c_port_t i2c_num, int sda_pin, int scl_pin)
 {

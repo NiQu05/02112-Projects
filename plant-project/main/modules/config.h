@@ -27,7 +27,7 @@
 #include "font8x8_basic.h"
 
 //I2C setup
-#define I2C_MASTER_FREQ_HZ 50000 //Reduce it to 50000 if the temperature/umidity sensor fails
+#define I2C_MASTER_FREQ_HZ 75000 //Reduce it to 50000 if the temperature/umidity sensor fails
 #define I2C_MASTER_TX_BUF_DISABLE 0
 #define I2C_MASTER_RX_BUF_DISABLE 0
 #define I2C_MASTER_SDA_GPIO 2 // SDA pin
@@ -59,7 +59,8 @@
 #define MIN_TEMP 15
 #define TEMP 20
 
-extern i2c_dev_t device; //Initialize i2c device descriptor
+extern i2c_dev_t i2c_screen;
+extern i2c_dev_t i2c_am2320;
 extern SSD1306_t screenDevice; 
 
 void config_setup();

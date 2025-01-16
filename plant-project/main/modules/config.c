@@ -1,20 +1,21 @@
 #include "modules/config.h"
 
-i2c_dev_t device = {0};
+i2c_dev_t i2c_screen = {0};
+i2c_dev_t i2c_am2320 = {0};
 SSD1306_t screenDevice;
 
 void config_setup()
 {
-    i2c_setup();
-    //vTaskDelay(1000 / portTICK_PERIOD_MS);
+    //i2c_setup();
+    // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     // Alarm and LED setup
     alarm_setup();
 
     // Sensor setup
-    //soil_sensor_init();
+    soil_sensor_init();
     light_sensor_init();
-    //air_sensor_init();
+    air_sensor_init();
 
     // Screen setup
     display_init();
@@ -114,9 +115,8 @@ void light_sensor_init()
 void air_sensor_init()
 {
     // Initialize the sensor (shared i2c) only once after boot.
-    ESP_ERROR_CHECK(am2320_shared_i2c_init(&device, I2C_NUM));
+    ESP_ERROR_CHECK(am2320_shared_i2c_init(&i2c_am2320, I2C_NUM));
 }
-
 void soil_sensor_init()
 {
     // Initialize the sensor (shared i2c) only once after boot.

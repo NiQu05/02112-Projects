@@ -28,8 +28,8 @@ void app_main(void)
     config_setup();
 
     xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
-    xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 1, NULL);
-    xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 1, NULL);
-    xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 1, NULL);
+    xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 10, NULL);
+    xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 10, NULL);
+    xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 10, NULL);
     //xTaskCreate(menu_air_temperature, "menu_air_temperature", 4096, &airTemperatur, 1, NULL);
 }

@@ -7,7 +7,7 @@ int get_lightvalue(){
 
 float get_temperatur(){
     float temperature;
-    esp_err_t result = am2320_get_rht(&device, &temperature, NULL);
+    esp_err_t result = am2320_get_rht(&i2c_am2320, &temperature, NULL);
 
     //If result is ok, then return temperatur
     if (result == ESP_OK){
@@ -21,7 +21,7 @@ float get_temperatur(){
 
 float get_humidity(){
     float humidity;
-    esp_err_t result = am2320_get_rht(&device, NULL, &humidity);
+    esp_err_t result = am2320_get_rht(&i2c_am2320, NULL, &humidity);
 
     //If result is ok, then return humidity
     if (result == ESP_OK){
