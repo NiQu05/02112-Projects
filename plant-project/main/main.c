@@ -2,11 +2,12 @@
 #include "modules/alarm.h"
 #include "modules/sensor.h"
 #include "modules/screen.h"
+#include "modules/button.h"
 
 float airTemperatur = 0;
 float airHumidity = 0;
-float soilTemperatur = 0;
-uint16_t soilMoisture = 0;
+float soilTemperatur = 21;
+uint16_t soilMoisture = 601;
 int lightValue = 0;
 
 // Task to update the sensor values
@@ -15,29 +16,26 @@ void VALUE_UPDATE()
     while (1)
     {
         airTemperatur = get_temperatur();
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         airHumidity = get_humidity();
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         soilTemperatur = get_soil_temperatur();
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         soilMoisture = get_soil_moisture();
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         lightValue = get_lightvalue();
-        vTaskDelay((2000) / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
 
 void app_main(void)
 {
     config_setup();
+    //initializeInterrupt();
+    //incrementMenu();
 
-    menu_air_temperature(&airTemperatur);
-
-    airTemperatur = get_temperatur();
-
-    vTaskDelay(2000 / portTICK_PERIOD_MS);
-
-    menu_air_temperature(&airTemperatur);
-
-    /* xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
+    xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
     xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 10, NULL);
     xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 10, NULL);
-    xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 10, NULL); */
-    // xTaskCreate(menu_air_temperature, "menu_air_temperature", 4096, &airTemperatur, 1, NULL);
+    xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 10, NULL);
 }

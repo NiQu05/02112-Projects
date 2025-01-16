@@ -117,6 +117,7 @@ void air_sensor_init()
     // Initialize the sensor (shared i2c) only once after boot.
     ESP_ERROR_CHECK(am2320_shared_i2c_init(&i2c_am2320, I2C_NUM));
 }
+
 void soil_sensor_init()
 {
     // Initialize the sensor (shared i2c) only once after boot.

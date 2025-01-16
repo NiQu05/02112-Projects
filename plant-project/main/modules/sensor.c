@@ -1,6 +1,8 @@
 #include "modules/config.h"
 #include "sensor.h"
 
+//#define DEBUG
+
 int get_lightvalue(){
     return adc1_get_raw(ADC1_CHANNEL_0);
 }
@@ -12,6 +14,9 @@ float get_temperatur(){
 
     //If result is ok, then return temperatur
     if (result == ESP_OK){
+        #ifdef DEBUG
+            ESP_LOGI(TAG_AIR_TEMPERATUR, "Air Temperature: %.1fC", temperature);
+        #endif
         return temperature;
     }    
     else{
@@ -27,6 +32,9 @@ float get_humidity(){
 
     //If result is ok, then return humidity
     if (result == ESP_OK){
+        #ifdef DEBUG
+            ESP_LOGI(TAG_AIR_HUMIDITY, "Air Humidity: %.1fC", humidity);
+        #endif
         return humidity;
     }    
     else{
@@ -36,11 +44,15 @@ float get_humidity(){
 }
 
 float get_soil_temperatur(){
-    air_sensor_init();
+    soil_sensor_init();
+
     float temperatur = 0;
     esp_err_t result = adafruit_stemma_soil_sensor_read_temperature(I2C_NUM, &temperatur);
 
     if (result == ESP_OK){
+        #ifdef DEBUG
+            ESP_LOGI(TAG_SOIL_TEMPERATUR, "Soil Temperature: %.1fC", temperatur);
+        #endif
         return temperatur;
     }
     else{
@@ -50,11 +62,14 @@ float get_soil_temperatur(){
 }
 
 uint16_t get_soil_moisture(){
-    air_sensor_init();
+    soil_sensor_init();
     uint16_t moisture = 0;
     esp_err_t result = adafruit_stemma_soil_sensor_read_moisture(I2C_NUM, &moisture);
 
     if (result == ESP_OK){
+        #ifdef DEBUG
+            ESP_LOGI(TAG_SOIL_MOISTURE, "Soil Moisture: %u", moisture);
+        #endif
         return moisture;
     }
     else{

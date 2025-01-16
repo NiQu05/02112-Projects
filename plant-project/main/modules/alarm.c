@@ -5,7 +5,7 @@ void RED_LED(float * soilTemp)
 {
     while(1)
     {
-        ESP_LOGI("Soil temp", "%.1f", *soilTemp);
+        //ESP_LOGI("Soil temp", "%.1f", *soilTemp);
 
         if (*soilTemp < MIN_TEMP)
         {
@@ -48,7 +48,7 @@ void RGB_LED(uint16_t * soilMoisture)
 {
     while(1)
     {
-        ESP_LOGI("Soil moisture2", "%u", *soilMoisture);
+        //ESP_LOGI("Soil moisture2", "%u", *soilMoisture);
         if (*soilMoisture < 600)
         {
             set_color(0, 8191, 8191); // Rød
@@ -93,7 +93,7 @@ void BUZZ(uint16_t * soilMoisture)
 
     while(1)
     {
-        ESP_LOGI("Soil moisture", "%u", *soilMoisture);
+        //ESP_LOGI("Soil moisture", "%u", *soilMoisture);
         if (*soilMoisture < 600)
         {
             ESP_ERROR_CHECK(ledc_set_duty(BUZZ_MODE, BUZZ_CHANNEL, 4096));

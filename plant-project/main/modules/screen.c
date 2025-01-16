@@ -2,7 +2,6 @@
 #include "modules/screen.h"
 
 void update_screen_data(uint8_t value, char format[], uint8_t icon[288]){
-    display_init();
     static char buffer[24];
     snprintf(buffer, sizeof(buffer), format, value);
     ssd1306_display_text_x3(&screenDevice, 4, buffer, 24, false);
@@ -16,23 +15,23 @@ void menu_air_temperature(float * temperatur){
     update_screen_data((uint8_t) *temperatur, "  %dC", thermostat_map);
 }
 
-void menu_air_humidity(float humidity){
+void menu_air_humidity(float * humidity){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_display_text(&screenDevice, 0, "    Humidity    ", 16, false);
-    update_screen_data((uint8_t)humidity, "  %d%%", humidity_map);
+    update_screen_data((uint8_t) *humidity, "  %d%%", humidity_map);
 }
 
-void menu_soil_temperature(float soil_temperatur){
+void menu_soil_temperature(float * soil_temperatur){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_display_text(&screenDevice, 0, "Soil Temperature", 16, false);
-    update_screen_data((uint8_t)soil_temperatur, "  %dC", temp_eco_map);
+    update_screen_data((uint8_t) *soil_temperatur, "  %dC", temp_eco_map);
 }
 
-void menu_soil_moisture(uint8_t soil_moisture){
+void menu_soil_moisture(uint8_t * soil_moisture){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_display_text(&screenDevice, 0, "  Soil Moisture ", 16, false);
-    update_screen_data(soil_moisture, "  %d%%", water_soil_map);
+    update_screen_data(*soil_moisture, "  %d%%", water_soil_map);
 }
