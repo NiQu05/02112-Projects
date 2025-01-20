@@ -22,11 +22,8 @@ void app_main(void)
     io_conf.intr_type = GPIO_INTR_DISABLE;
     gpio_config(&io_conf);
 
-    for (int i = 0; i < 3; i++)
-    {
-        gpio_set_level(MOTOR, 1);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-        gpio_set_level(MOTOR, 0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
-    }
+    gpio_set_level(MOTOR, 1);
+    vTaskDelay(10000 / portTICK_PERIOD_MS);
+    gpio_set_level(MOTOR, 0);
+
 }

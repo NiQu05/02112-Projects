@@ -1,8 +1,16 @@
 #include "modules/config.h"
 
+//Global devices
 i2c_dev_t i2c_screen = {0};
 i2c_dev_t i2c_am2320 = {0};
 SSD1306_t screenDevice;
+
+//Global parameters
+float airTemperatur = 0;
+float airHumidity = 0;
+float soilTemperatur = 21;
+uint16_t soilMoisture = 601;
+int lightValue = 0;
 
 void config_setup()
 {

@@ -4,12 +4,6 @@
 #include "modules/screen.h"
 #include "modules/button.h"
 
-float airTemperatur = 0;
-float airHumidity = 0;
-float soilTemperatur = 21;
-uint16_t soilMoisture = 601;
-int lightValue = 0;
-
 // Task to update the sensor values
 void VALUE_UPDATE()
 {
@@ -31,11 +25,12 @@ void VALUE_UPDATE()
 void app_main(void)
 {
     config_setup();
-    //initializeInterrupt();
-    //incrementMenu();
-
+    initializeInterrupt();
+    
     xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
     xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 10, NULL);
     xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 10, NULL);
     xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 10, NULL);
+    xTaskCreate(incrementMenu, "incrementMenu", 4096, NULL, 10, NULL);
+
 }

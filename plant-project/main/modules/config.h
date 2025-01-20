@@ -58,10 +58,19 @@
 #define RED_LED_GPIO 8
 #define MIN_TEMP 15
 #define TEMP 20
+#define NUM_SCREENS 3
 
+//Global devices
 extern i2c_dev_t i2c_screen;
 extern i2c_dev_t i2c_am2320;
 extern SSD1306_t screenDevice; 
+
+//Global parameters
+extern float airTemperatur;
+extern float airHumidity;
+extern float soilTemperatur;
+extern uint16_t soilMoisture;
+extern int lightValue;
 
 void config_setup();
 void i2c_setup();

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <inttypes.h>
-#include "sdkconfig.h"
+#include <stdbool.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_chip_info.h"
@@ -8,55 +8,93 @@
 #include "esp_system.h"
 #include "esp_log.h"
 #include "driver/gpio.h"
+#include "modules/button.h"
+#include "modules/screen.h"
 
-#define BUTTON1_GPIO 18
-#define BUTTON2_GPIO 19
-
-int button1HasBeenPressed = 0;
-int button2HasBeenPressed = 0;
+int buttonPressed = 0;
 int count = 0;
+int currentCount = 0;
 
-void IRAM_ATTR button1InterruptHandler(void * arg)
+void IRAM_ATTR interruptHandler(void *arg)
 {
-    button1HasBeenPressed = 1;
-}
-
-void IRAM_ATTR button2InterruptHandler(void * arg)
-{
-    button2HasBeenPressed = 1;
+    buttonPressed = 1;
 }
 
 void initializeInterrupt()
 {
     // From Demo project
     gpio_config_t io_conf;
-    
-    io_conf.pin_bit_mask = ((1ULL << BUTTON1_GPIO) | (1ULL << BUTTON2_GPIO));
+
+    io_conf.pin_bit_mask = (1ULL << BUTTON_GPIO);
     io_conf.mode = GPIO_MODE_INPUT;
     io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
     io_conf.intr_type = GPIO_INTR_NEGEDGE;
     gpio_config(&io_conf);
 
     gpio_install_isr_service(0);
-    gpio_isr_handler_add(BUTTON1_GPIO, button1InterruptHandler, NULL);
-    gpio_isr_handler_add(BUTTON2_GPIO, button2InterruptHandler, NULL);
+    gpio_isr_handler_add(BUTTON_GPIO, interruptHandler, NULL);
 }
 
-void incrementMenu(){
-    while(1)
-    {   
-        //if(button1HasBeenPressed >= 1){
-        //    button1HasBeenPressed = 0;
-        //    count++;
-        //    ESP_LOGI("[Button]", "Count %d", count);
-        //}
-        
-        //if(button2HasBeenPressed >= 1){
-        //    button2HasBeenPressed = 0;
-        //    count--;
-        //    ESP_LOGI("[Button]", "Count %d", count);
-        //}
+void incrementMenu()
+{
+    while (1)
+    {
+        if (buttonPressed >= 1)
+        {
+            buttonPressed = 0;
 
-        vTaskDelay(200 / portTICK_PERIOD_MS);
+            if (count < NUM_SCREENS)
+            {
+                count++;
+            }
+            else
+            {
+                count = 0;
+            }
+
+            ESP_LOGI("[Button]", "Count %d", count);
+        }
+
+        switch (count)
+        {
+        case 3:
+            if(currentCount == 3){
+                break;
+            }
+            else{
+                menu_soil_moisture(&soilMoisture);
+                currentCount = 3;
+                break;
+            }
+        case 2:
+            if(currentCount == 2){
+                break;
+            }
+            else{
+                menu_soil_temperature(&soilTemperatur);
+                currentCount = 2;
+                break;
+            }
+        case 1:
+            if(currentCount == 1){
+                break;
+            }
+            else{
+                menu_air_humidity(&airHumidity);    
+                currentCount = 1;
+                break;
+            }
+        default:
+            if(currentCount == 0){
+                break;
+            }
+            else{
+                menu_air_temperature(&airTemperatur);
+                currentCount = 0;
+                break;
+            }
+        }
+
+        vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 }

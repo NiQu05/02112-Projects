@@ -29,9 +29,9 @@ void menu_soil_temperature(float * soil_temperatur){
     update_screen_data((uint8_t) *soil_temperatur, "  %dC", temp_eco_map);
 }
 
-void menu_soil_moisture(uint8_t * soil_moisture){
+void menu_soil_moisture(uint16_t * soil_moisture){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_display_text(&screenDevice, 0, "  Soil Moisture ", 16, false);
-    update_screen_data(*soil_moisture, "  %d%%", water_soil_map);
+    update_screen_data((uint8_t) *soil_moisture, "  %d%%", water_soil_map);
 }
