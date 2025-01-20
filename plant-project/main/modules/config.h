@@ -62,6 +62,7 @@
 #define MIN_TEMP 15
 #define TEMP 20
 #define NUM_SCREENS 3
+#define MOTOR 1
 
 //Global devices
 extern i2c_dev_t i2c_screen;
@@ -82,5 +83,6 @@ void light_sensor_init();
 void air_sensor_init();
 void soil_sensor_init();
 void display_init();
+void motor_setup();
 
 #endif

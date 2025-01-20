@@ -48,10 +48,16 @@ void RGB_LED(uint16_t * soilMoisture)
 {
     while(1)
     {
+        gpio_set_level(MOTOR, 1);
         //ESP_LOGI("Soil moisture2", "%u", *soilMoisture);
         if (*soilMoisture < 600)
         {
             set_color(0, 8191, 8191); // Rød
+            gpio_set_level(MOTOR, 0);
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
+            gpio_set_level(MOTOR, 1);
+            vTaskDelay(10000 / portTICK_PERIOD_MS);
+
         }
         else if (*soilMoisture < 800)
         {

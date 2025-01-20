@@ -8,6 +8,13 @@ void update_screen_data(uint8_t value, char format[], uint8_t icon[288]){
     ssd1306_bitmaps(&screenDevice, ICON_X, ICON_Y, icon, 48, 48, false);
 }
 
+void startup_menu(){
+    display_init();
+    ssd1306_clear_screen(&screenDevice, false);
+    ssd1306_display_text(&screenDevice, 0, "    Group 10    ", 16, false);
+    ssd1306_bitmaps(&screenDevice, ICON_X + 40, ICON_Y, logo_map, 48, 48, false);
+}
+
 void menu_air_temperature(float * temperatur){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
