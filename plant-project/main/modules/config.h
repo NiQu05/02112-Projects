@@ -2,7 +2,7 @@
 #define CONFIG_H
 
 #include <stdio.h>
-//#include "sdkconfig.h"
+#include "sdkconfig.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_chip_info.h"
@@ -25,6 +25,9 @@
 //Display libraies
 #include "ssd1306.h"
 #include "font8x8_basic.h"
+
+// WiFi
+#include "modules/network/wifi.h"
 
 //I2C setup
 #define I2C_MASTER_FREQ_HZ 75000 //Reduce it to 50000 if the temperature/umidity sensor fails
