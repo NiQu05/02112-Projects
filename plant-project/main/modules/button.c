@@ -15,6 +15,7 @@ int buttonPressed = 0;
 int count = 0;
 int currentCount = 0;
 
+
 void IRAM_ATTR interruptHandler(void *arg)
 {
     buttonPressed = 1;

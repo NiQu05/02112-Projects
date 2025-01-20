@@ -33,5 +33,6 @@ void menu_soil_moisture(uint16_t * soil_moisture){
     display_init();
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_display_text(&screenDevice, 0, "  Soil Moisture ", 16, false);
-    update_screen_data((uint8_t) *soil_moisture, "  %d%%", water_soil_map);
+    uint8_t display_soil_moisture = (*soil_moisture * 100) / 2000;
+    update_screen_data(display_soil_moisture, "  %d%%", water_soil_map);
 }
