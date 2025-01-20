@@ -16,15 +16,18 @@
 #include "driver/gpio.h"
 #include "driver/adc.h"
 
-//Temperature/humidity sensor library
+// Temperature/humidity sensor library
 #include "am2320.h"
 
-//Stemma soil sensor library
+// Stemma soil sensor library
 #include "Adafruit_Stemma_soil_sensor.h"
 
-//Display libraies
+// Display libraies
 #include "ssd1306.h"
 #include "font8x8_basic.h"
+
+// Network
+#include "modules/network/wifi.h"
 
 //I2C setup
 #define I2C_MASTER_FREQ_HZ 75000 //Reduce it to 50000 if the temperature/umidity sensor fails
@@ -58,6 +61,12 @@
 #define RED_LED_GPIO 8
 #define MIN_TEMP 15
 #define TEMP 20
+
+// WIFI
+#define WIFI_SSID       "Nikolaj iPhone"
+#define WIFI_PASSWORD   "1234abcd"
+#define MAXIMUM_RETRY   5
+
 
 extern i2c_dev_t i2c_screen;
 extern i2c_dev_t i2c_am2320;

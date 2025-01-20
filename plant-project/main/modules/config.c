@@ -6,6 +6,7 @@ SSD1306_t screenDevice;
 
 void config_setup()
 {
+    wifi_init();
     i2c_setup();
     // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
