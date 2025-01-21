@@ -14,7 +14,7 @@ int lightValue = 0;
 
 void config_setup()
 {
-    wifi_init();
+    //wifi_init();
     i2c_setup();
     // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
@@ -28,6 +28,8 @@ void config_setup()
 
     // Screen setup
     display_init();
+
+    motor_setup();
 }
 
 // Sets the shared u2c gpio config
@@ -141,4 +143,14 @@ void display_init()
     ssd1306_init(&screenDevice, 128, 64);
     ssd1306_clear_screen(&screenDevice, false);
     ssd1306_contrast(&screenDevice, 0xff);
+}
+
+void motor_setup()
+{
+    gpio_config_t io_conf;
+
+    io_conf.pin_bit_mask = (1ULL << MOTOR);
+    io_conf.mode = GPIO_MODE_OUTPUT;
+    io_conf.intr_type = GPIO_INTR_DISABLE;
+    gpio_config(&io_conf);
 }

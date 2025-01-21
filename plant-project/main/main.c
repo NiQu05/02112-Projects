@@ -26,11 +26,11 @@ void app_main(void)
 {
     config_setup();
     initializeInterrupt();
-    
+    startup_menu();
+
     xTaskCreate(VALUE_UPDATE, "VALUE_UPDATE", 4096, NULL, 1, NULL);
     xTaskCreate(RED_LED, "RED_LED", 4096, &soilTemperatur, 10, NULL);
     xTaskCreate(RGB_LED, "RGB_LED", 4096, &soilMoisture, 10, NULL);
     xTaskCreate(BUZZ, "BUZZ", 4096, &soilMoisture, 10, NULL);
     xTaskCreate(incrementMenu, "incrementMenu", 4096, NULL, 10, NULL);
-
 }

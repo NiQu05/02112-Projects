@@ -5,7 +5,9 @@
 #define ICON_X 0
 
 void update_screen_data(uint8_t value, char format[], uint8_t icon[288]);
+void startup_menu();
 void menu_air_temperature(float * temperatur);
 void menu_air_humidity(float * humidity);
 void menu_soil_temperature(float * soil_temperatur);
 void menu_soil_moisture(uint16_t * soil_moisture);
+void menu_ligt_level(int * light_level);
