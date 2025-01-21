@@ -12,10 +12,6 @@ static EventGroupHandle_t s_wifi_event_group;
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT BIT1
 
-//extern const uint8_t server_root_cert_pem_start[] asm("_binary_server_pem_start");
-#define PRIVATE_KEY "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCfWdbEZAJ8EkGb\n93GoreQmfkTrULFhLVc7RhH69JD2b+evXF6ngS0aESoj2tt+yWgvob9Hu3zB0eXH\n1mYfmAIFGDbUjP4WYGj1uuqfyt7tEuHtIZ1r9wIRwgz405bMFZgpkfwwq6QQ8/2c\nazc/pSuEf0GElfkZ1QHJ5z6uPHqz1ApmZJVVlzUa+lj019uFKIJsNPmk01ekZQZk\n38a2YA8OSA9giCLw89VBRvLujN+IunOJBOAoKR67mOhqoLupxoce5rERctnR2RBR\n91FCCJG32s5PWWZ+yA3GzIdYmrg2jZm3va3z540UhFRSQAdAPxvlCIlTcT2Wl9Sx\nw4tfVWGFAgMBAAECggEACXoEyTovYaSOTVG6ay8oPdfNjncGjYJuSSKiKBwKUPWX\nwDiMkoaeoYm6yVYXLqOYtBh48TGnujka4rcP7LoUCKyHej2GUNtb8p0ynd0pQ80X\nLYyNuaF/eIHjVprywWFZYsOBTX2vrKhuATLpHrpaa69LvLBUl6Iw0IqVkjQbkf0m\npAu9Ruo3ZayAi9a3ueZN32VlPx6TktCw3pdPzIxtzSDyGdQHTd8gawryi2f8qXkq\nrTDDv8ypV2DB1bt8KisR5+sr2GmT0MbCX5goMjLm26Xzy1XvgZgtRT06+b5S6g+8\nz9HfaVjN5bOTgrqw6tUz7AasaLK58hL1tzhSW8BXkwKBgQDbcJYgXahc6uzP/M5j\nVlAyGsurefD6frVzMGDV58ZbBB4w0FQdYHpqsAcPrqt4rR470Q8mVdOjYa8jv2Xf\nwPMulyysVRIPsreaXKusFyLpJODLKbNzHtHYhSuymClUxeDCnMgY1oBh91CBtP2A\nfh50TfVwsXfGFCKpGWJV9VGTzwKBgQC55mD5ii1J5HVMx9+5PAMv234VrdXOQru2\n2jw/JLIuG6bh1FdI7dCGosNQW9wC5AdnFeP+0Unx+OzwnI/C38dakS4QMSryflVf\nmkodipdLdwp4Pb0lr6f9ARgyMA0+gDtp76l5L2LROfDHdgA+FA8y9GdwCFUvEv/o\nKOFRhY5GawKBgBTMwy4mMoM8MV41lEqOL+PP7mY+lLzprcFRYJxl78NIzKPL2209\na90Y+lJeOBqkLi11T35OvFTMOZGl3r4qx+Iuqilblu6t/gE/r3YMa162BCi9tyi+\nTx264b139tL2PquzuLPCAUFH8/WXdj/rtG9JxG3+JGA+IFru8Qc8zZK5AoGAAR7V\nWMuvaDGbT2IpBAnLjx9IjELm9f5K+VgpYswK0uJRyCyqdgMQ7a7PdI2JLu9G6CUm\noaOLSY0RiIW5DBijL/WODITvWFTQmOnqJnFuZgMKqhzdJfwADDNUfQDzI3xMX2AV\namiRtOcff2RDrhwa11jHwtIaCVWY+0I70Wz3pY8CgYEAjppW4sxhp/JZVZ87lyRs\nfZ5u4VyeixDYsLimNg0+nvxfhbeJ2h6xjMYOwMvWXVZYUBFB9CYZw9M4ng7svQ1b\njgK30d/cJ5D9YhZMSk/H3/FP3pDCLqCqLBO3wJtd1+f46H2YaPzW0syEUIwYiIfX\nhPixvOn2Cpp6MDTWkOnOHwo=\n-----END PRIVATE KEY-----\n",
-
-
 static const char *TAG = "[WIFI]";
 
 static int s_retry_num = 0;
@@ -101,7 +97,7 @@ void wifi_init_sta(void)
     }
     else if (bits & WIFI_FAIL_BIT)
     {
-        ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
+        ESP_LOGE(TAG, "Failed to connect to SSID:%s, password:%s",
                  WIFI_SSID, WIFI_PASSWORD);
     }
     else
@@ -166,26 +162,33 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
 
 static void http_rest_with_url(void)
 {
-    // Prepare the full authorization header
-    char auth_header[512];
-    snprintf(auth_header, sizeof(auth_header), "Bearer %s", HTTP_BEARER);
-
     // Configure HTTP client
     esp_http_client_config_t config = {
         .url = HTTP_ENDPOINT,
         .event_handler = _http_event_handler,
         .method = HTTP_METHOD_POST,
-        .cert_pem = PRIVATE_KEY // Disable server verification
     };
 
     esp_http_client_handle_t client = esp_http_client_init(&config);
 
     // Set headers
     esp_http_client_set_header(client, "Content-Type", "application/json");
-    esp_http_client_set_header(client, "Authorization", auth_header);
+
+    char json_data[256];
+    snprintf(json_data, 256,
+             "{"
+             "\"airTemp\": %.2f,"
+             "\"airHumidity\": %.2f,"
+             "\"soilTemp\": %.2f,"
+             "\"soilMoisture\": %d,"
+             "\"light\": %d"
+             "}",
+             airTemperatur, airHumidity, soilTemperatur, soilMoisture, lightValue);
+
+    ESP_LOGI(TAG, "%s", json_data);
 
     // Set POST data
-    esp_http_client_set_post_field(client, POST_DATA, strlen(POST_DATA));
+    esp_http_client_set_post_field(client, json_data, strlen(json_data));
 
     // Perform the POST request
     esp_err_t err = esp_http_client_perform(client);
