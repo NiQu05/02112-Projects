@@ -58,6 +58,15 @@ void incrementMenu()
 
         switch (count)
         {
+        case 4:
+            if(currentCount == 4){
+                break;
+            }
+            else{
+                menu_ligt_level(&lightValue);
+                currentCount = 4;
+                break;
+            }
         case 3:
             if(currentCount == 3){
                 break;

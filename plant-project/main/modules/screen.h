@@ -10,3 +10,4 @@ void menu_air_temperature(float * temperatur);
 void menu_air_humidity(float * humidity);
 void menu_soil_temperature(float * soil_temperatur);
 void menu_soil_moisture(uint16_t * soil_moisture);
+void menu_ligt_level(int * light_level);

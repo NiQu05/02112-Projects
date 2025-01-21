@@ -43,3 +43,27 @@ void menu_soil_moisture(uint16_t * soil_moisture){
     uint8_t display_soil_moisture = (*soil_moisture * 100) / 2000;
     update_screen_data(display_soil_moisture, "  %d%%", water_soil_map);
 }
+
+void menu_ligt_level(int * light_level){
+    display_init();
+    ssd1306_clear_screen(&screenDevice, false);
+    ssd1306_display_text(&screenDevice, 0, "   Light Level  ", 16, false);
+    
+    ssd1306_bitmaps(&screenDevice, ICON_X, ICON_Y, light_level_map, 48, 48, false);
+
+    if(*light_level < 500){
+        ssd1306_bitmaps(&screenDevice, ICON_X + 50, ICON_Y, light4_map, 16, 48, false);
+    }
+    else if(*light_level < 700){
+        ssd1306_bitmaps(&screenDevice, ICON_X + 50, ICON_Y, light3_map, 16, 48, false);
+    }
+    else if(*light_level < 900){
+        ssd1306_bitmaps(&screenDevice, ICON_X + 50, ICON_Y, light2_map, 16, 48, false);
+    }
+    else if(*light_level < 1100){
+        ssd1306_bitmaps(&screenDevice, ICON_X + 50, ICON_Y, light1_map, 16, 48, false);
+    }
+    else{
+        ssd1306_bitmaps(&screenDevice, ICON_X + 50, ICON_Y, light0_map, 16, 48, false);
+    }
+}

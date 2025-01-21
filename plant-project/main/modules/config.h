@@ -61,7 +61,7 @@
 #define RED_LED_GPIO 8
 #define MIN_TEMP 15
 #define TEMP 20
-#define NUM_SCREENS 3
+#define NUM_SCREENS 4 // + 1 (zero indexed)
 #define MOTOR 1
 
 //Global devices

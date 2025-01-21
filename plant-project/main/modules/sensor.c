@@ -4,7 +4,13 @@
 //#define DEBUG
 
 int get_lightvalue(){
-    return adc1_get_raw(ADC1_CHANNEL_0);
+    int light_value = adc1_get_raw(ADC1_CHANNEL_0);
+
+    #ifdef DEBUG
+        ESP_LOGI(TAG_LIGHT_SENSOR, "Light Value: %d", light_value);
+    #endif
+
+    return light_value;
 }
 
 float get_temperatur(){
