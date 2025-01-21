@@ -24,7 +24,7 @@
 
 //Display libraies
 #include "ssd1306.h"
-#include "font8x8_basic.h"
+//#include "font8x8_basic.h"
 
 // WiFi
 #include "modules/network/wifi.h"

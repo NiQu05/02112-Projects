@@ -121,8 +121,6 @@ void wifi_init()
 
     wifi_init_sta();
     ESP_LOGI(TAG, "Connected to AP, begin http example");
-
-    http_rest_with_url();
 }
 
 esp_err_t _http_event_handler(esp_http_client_event_t *evt)
@@ -160,50 +158,56 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-static void http_rest_with_url(void)
+void http_rest_with_url(void)
 {
-    // Configure HTTP client
-    esp_http_client_config_t config = {
-        .url = HTTP_ENDPOINT,
-        .event_handler = _http_event_handler,
-        .method = HTTP_METHOD_POST,
-    };
-
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-
-    // Set headers
-    esp_http_client_set_header(client, "Content-Type", "application/json");
-
-    char json_data[256];
-    snprintf(json_data, 256,
-             "{"
-             "\"airTemp\": %.2f,"
-             "\"airHumidity\": %.2f,"
-             "\"soilTemp\": %.2f,"
-             "\"soilMoisture\": %d,"
-             "\"light\": %d"
-             "}",
-             airTemperatur, airHumidity, soilTemperatur, soilMoisture, lightValue);
-
-    ESP_LOGI(TAG, "%s", json_data);
-
-    // Set POST data
-    esp_http_client_set_post_field(client, json_data, strlen(json_data));
-
-    // Perform the POST request
-    esp_err_t err = esp_http_client_perform(client);
-
-    if (err == ESP_OK)
+    while (1)
     {
-        ESP_LOGI(TAG, "POST Status = %d, content_length = %lld",
-                 esp_http_client_get_status_code(client),
-                 esp_http_client_get_content_length(client));
-    }
-    else
-    {
-        ESP_LOGE(TAG, "POST request failed: %s", esp_err_to_name(err));
-    }
 
-    // Cleanup
-    esp_http_client_cleanup(client);
+        // Configure HTTP client
+        esp_http_client_config_t config = {
+            .url = HTTP_ENDPOINT,
+            .event_handler = _http_event_handler,
+            .method = HTTP_METHOD_POST,
+        };
+
+        esp_http_client_handle_t client = esp_http_client_init(&config);
+
+        // Set headers
+        esp_http_client_set_header(client, "Content-Type", "application/json");
+
+        char json_data[256];
+        snprintf(json_data, 256,
+                 "{"
+                 "\"airTemp\": %.2f,"
+                 "\"airHumidity\": %.2f,"
+                 "\"soilTemp\": %.2f,"
+                 "\"soilMoisture\": %d,"
+                 "\"light\": %d"
+                 "}",
+                 airTemperatur, airHumidity, soilTemperatur, soilMoisture, lightValue);
+
+        ESP_LOGI(TAG, "%s", json_data);
+
+        // Set POST data
+        esp_http_client_set_post_field(client, json_data, strlen(json_data));
+
+        // Perform the POST request
+        esp_err_t err = esp_http_client_perform(client);
+
+        if (err == ESP_OK)
+        {
+            ESP_LOGI(TAG, "POST Status = %d, content_length = %lld",
+                     esp_http_client_get_status_code(client),
+                     esp_http_client_get_content_length(client));
+        }
+        else
+        {
+            ESP_LOGE(TAG, "POST request failed: %s", esp_err_to_name(err));
+        }
+
+        // Cleanup
+        esp_http_client_cleanup(client);
+
+        vTaskDelay(60000 / portTICK_PERIOD_MS);
+    }
 }

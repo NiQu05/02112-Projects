@@ -14,9 +14,8 @@ int lightValue = 0;
 
 void config_setup()
 {
-    //wifi_init();
+    wifi_init();
     i2c_setup();
-    // vTaskDelay(1000 / portTICK_PERIOD_MS);
 
     // Alarm and LED setup
     alarm_setup();

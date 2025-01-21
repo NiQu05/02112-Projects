@@ -50,7 +50,7 @@ void RGB_LED(uint16_t * soilMoisture)
     {
         gpio_set_level(MOTOR, 1);
         //ESP_LOGI("Soil moisture2", "%u", *soilMoisture);
-        if (*soilMoisture < 600)
+        if (*soilMoisture < 700)
         {
             set_color(0, 8191, 8191); // Rød
             gpio_set_level(MOTOR, 0);
@@ -100,7 +100,7 @@ void BUZZ(uint16_t * soilMoisture)
     while(1)
     {
         //ESP_LOGI("Soil moisture", "%u", *soilMoisture);
-        if (*soilMoisture < 600)
+        if (*soilMoisture < 700)
         {
             ESP_ERROR_CHECK(ledc_set_duty(BUZZ_MODE, BUZZ_CHANNEL, 4096));
             ESP_ERROR_CHECK(ledc_update_duty(BUZZ_MODE, BUZZ_CHANNEL));
