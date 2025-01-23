@@ -158,11 +158,12 @@ esp_err_t _http_event_handler(esp_http_client_event_t *evt)
     return ESP_OK;
 }
 
-void http_rest_with_url(void)
-{
+// Task function to handle wifi posts
+void Http_rest_with_url(void * arg)
+{   
+    // Data sending loop
     while (1)
     {
-
         // Configure HTTP client
         esp_http_client_config_t config = {
             .url = HTTP_ENDPOINT,
@@ -175,6 +176,7 @@ void http_rest_with_url(void)
         // Set headers
         esp_http_client_set_header(client, "Content-Type", "application/json");
 
+        // Get sensor data
         char json_data[256];
         snprintf(json_data, 256,
                  "{"
@@ -184,7 +186,7 @@ void http_rest_with_url(void)
                  "\"soilMoisture\": %d,"
                  "\"light\": %d"
                  "}",
-                 airTemperatur, airHumidity, soilTemperatur, soilMoisture, lightValue);
+                 airTemperature, airHumidity, soilTemperature, soilMoisture, lightValue);
 
         ESP_LOGI(TAG, "%s", json_data);
 
@@ -194,6 +196,7 @@ void http_rest_with_url(void)
         // Perform the POST request
         esp_err_t err = esp_http_client_perform(client);
 
+        // Post status
         if (err == ESP_OK)
         {
             ESP_LOGI(TAG, "POST Status = %d, content_length = %lld",
@@ -208,6 +211,7 @@ void http_rest_with_url(void)
         // Cleanup
         esp_http_client_cleanup(client);
 
+        // Data sending delay
         vTaskDelay(60000 / portTICK_PERIOD_MS);
     }
 }

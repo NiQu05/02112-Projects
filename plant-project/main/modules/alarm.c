@@ -1,13 +1,12 @@
 #include "modules/config.h"
 #include "modules/sensor.h"
 
-void RED_LED(float * soilTemp)
+// Changes blinking of the red LED depending on soil temperature (task function)
+void Red_LED(void * arg)
 {
     while(1)
     {
-        //ESP_LOGI("Soil temp", "%.1f", *soilTemp);
-
-        if (*soilTemp < MIN_TEMP)
+        if (soilTemperature < CRITICAL_TEMP)  // If soil temperature is critical low, red LED will blink quickly
         {
             for(int i = 0; i < 3; i++){
                 gpio_set_level(RED_LED_GPIO, 1);
@@ -17,7 +16,7 @@ void RED_LED(float * soilTemp)
             }
             
         }
-        else if (*soilTemp < TEMP)
+        else if (soilTemperature < MIN_TEMP)  // If soil temperature is low, red LED will blink slow
         {
             gpio_set_level(RED_LED_GPIO, 1);
             vTaskDelay((500) / portTICK_PERIOD_MS);
@@ -32,6 +31,7 @@ void RED_LED(float * soilTemp)
     
 }
 
+// Sets the color of the RGB LED
 void set_color(unsigned int red, unsigned int green, unsigned int blue)
 {
     ledc_set_duty(LEDC_MODE, LEDC_CHANNEL_RED, red);
@@ -44,44 +44,45 @@ void set_color(unsigned int red, unsigned int green, unsigned int blue)
     ledc_update_duty(LEDC_MODE, LEDC_CHANNEL_BLUE);
 }
 
-void RGB_LED(uint16_t * soilMoisture)
+// Changes the RGB LED colors depending on the input soil moisture value (task function)
+void RGB_LED(void * arg)
 {
     while(1)
     {
-        gpio_set_level(MOTOR, 1);
-        //ESP_LOGI("Soil moisture2", "%u", *soilMoisture);
-        if (*soilMoisture < 700)
-        {
-            set_color(0, 8191, 8191); // Rød
-            gpio_set_level(MOTOR, 0);
-            vTaskDelay(5000 / portTICK_PERIOD_MS);
-            gpio_set_level(MOTOR, 1);
-            vTaskDelay(10000 / portTICK_PERIOD_MS);
+        gpio_set_level(MOTOR, 1);   // Turn off motor/pump
 
-        }
-        else if (*soilMoisture < 800)
+        if (soilMoisture < 700)
         {
-            set_color(0, 0, 8191); // Gul
+            set_color(0, 8191, 8191); // Red
+            gpio_set_level(MOTOR, 0);               // Turn on motor
+            vTaskDelay(5000 / portTICK_PERIOD_MS);  // Wait 5 seconds
+            gpio_set_level(MOTOR, 1);               // Turn off motor
+            vTaskDelay(10000 / portTICK_PERIOD_MS); // Wait 10 seconds
         }
-        else if (*soilMoisture < 1000)
+        else if (soilMoisture < 800)
         {
-            set_color(8191, 0, 8191); // Grøn
+            set_color(0, 0, 8191); // Yellow
         }
-        else if (*soilMoisture < 1200)
+        else if (soilMoisture < 1000)
+        {
+            set_color(8191, 0, 8191); // Green
+        }
+        else if (soilMoisture < 1200)
         {
             set_color(8191, 0, 0); // Cyan
         }
         else
         {
-            set_color(8191, 8191, 0); // Blå
+            set_color(8191, 8191, 0); // Blue
         }
 
+        // Delay
         vTaskDelay((1000) / portTICK_PERIOD_MS);
     }
-    
 }
 
-void BUZZ(uint16_t * soilMoisture)
+// Handles buzzer behavior (task function)
+void Buzz(void * arg)
 {
     int melody[] = 
     {
@@ -99,8 +100,7 @@ void BUZZ(uint16_t * soilMoisture)
 
     while(1)
     {
-        //ESP_LOGI("Soil moisture", "%u", *soilMoisture);
-        if (*soilMoisture < 700)
+        if (soilMoisture < 700)
         {
             ESP_ERROR_CHECK(ledc_set_duty(BUZZ_MODE, BUZZ_CHANNEL, 4096));
             ESP_ERROR_CHECK(ledc_update_duty(BUZZ_MODE, BUZZ_CHANNEL));

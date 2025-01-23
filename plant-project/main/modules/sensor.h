@@ -1,13 +1,12 @@
 #include "modules/config.h"
 
-//Tags
+// Debuggin Tags
 #define TAG_LIGHT_SENSOR "[Light Sensor]"
 #define TAG_AIR_TEMPERATUR "[Air Temperatur]"
 #define TAG_AIR_HUMIDITY "[Air Humidity]"
 #define TAG_SOIL_TEMPERATUR "[Soil Temperatur]"
 #define TAG_SOIL_MOISTURE "[Soil Moisture]"
 
-//Prototypes
 int get_lightvalue();
 float get_temperatur();
 float get_humidity();

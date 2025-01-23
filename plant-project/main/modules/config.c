@@ -6,15 +6,16 @@ i2c_dev_t i2c_am2320 = {0};
 SSD1306_t screenDevice;
 
 //Global parameters
-float airTemperatur = 0;
+float airTemperature = 0;
 float airHumidity = 0;
-float soilTemperatur = 21;
+float soilTemperature = 21;
 uint16_t soilMoisture = 601;
 int lightValue = 0;
 
 void config_setup()
 {
     wifi_init();
+
     i2c_setup();
 
     // Alarm and LED setup
@@ -27,11 +28,13 @@ void config_setup()
 
     // Screen setup
     display_init();
+    startup_menu();
 
+    // Pump setup
     motor_setup();
 }
 
-// Sets the shared u2c gpio config
+// Sets the shared i2c GPIO config
 void i2c_setup()
 {
     i2c_config_t conf;
@@ -46,6 +49,7 @@ void i2c_setup()
     ESP_ERROR_CHECK(i2c_driver_install(I2C_NUM, conf.mode, I2C_MASTER_RX_BUF_DISABLE, I2C_MASTER_TX_BUF_DISABLE, 0));
 }
 
+// LED's and Buzzer GPIO setup
 void alarm_setup()
 {
     // Set gpio config for the Red LED
@@ -115,6 +119,7 @@ void alarm_setup()
     ESP_ERROR_CHECK(ledc_channel_config(&ledc_channel_buzz));
 }
 
+// Light sensor adc initialization
 void light_sensor_init()
 {
     // Initializes the analog to digital signal from the light sensor pin
@@ -122,21 +127,21 @@ void light_sensor_init()
     adc1_config_channel_atten(ADC1_CHANNEL_0, ADC_ATTEN_DB_12); // ADC1_CHANNEL_0 is on GPIO0 (GPIOzero)
 }
 
+// Air sensor initialization
 void air_sensor_init()
 {
-    // Initialize the sensor (shared i2c) only once after boot.
     ESP_ERROR_CHECK(am2320_shared_i2c_init(&i2c_am2320, I2C_NUM));
 }
 
+// Soil sensor initialization
 void soil_sensor_init()
 {
-    // Initialize the sensor (shared i2c) only once after boot.
     ESP_ERROR_CHECK(adafruit_stemma_soil_sensor_shared_i2c_init());
 }
 
+// Initializes the display
 void display_init()
 {
-    // Initialize the display (shared i2c) only once after boot.
     i2c_master_shared_i2c_init(&screenDevice);
     vTaskDelay((500) / portTICK_PERIOD_MS);
     ssd1306_init(&screenDevice, 128, 64);
@@ -144,10 +149,10 @@ void display_init()
     ssd1306_contrast(&screenDevice, 0xff);
 }
 
+// Defines the GPIO for the motor/pump
 void motor_setup()
 {
     gpio_config_t io_conf;
-
     io_conf.pin_bit_mask = (1ULL << MOTOR);
     io_conf.mode = GPIO_MODE_OUTPUT;
     io_conf.intr_type = GPIO_INTR_DISABLE;

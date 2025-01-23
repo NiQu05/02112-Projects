@@ -3,6 +3,7 @@
 
 //#define DEBUG
 
+// Returns the raw light value (Between 0 and 4000)
 int get_lightvalue(){
     int light_value = adc1_get_raw(ADC1_CHANNEL_0);
 
@@ -13,6 +14,7 @@ int get_lightvalue(){
     return light_value;
 }
 
+// Returns the air temperature in celsius
 float get_temperatur(){
     air_sensor_init();
     float temperature;
@@ -31,6 +33,7 @@ float get_temperatur(){
     }
 }
 
+// Returns the air humidity in %
 float get_humidity(){
     air_sensor_init();
     float humidity;
@@ -49,6 +52,7 @@ float get_humidity(){
     }
 }
 
+// Returns the soil temperature in celsius
 float get_soil_temperatur(){
     soil_sensor_init();
 
@@ -67,6 +71,7 @@ float get_soil_temperatur(){
     }
 }
 
+// Returns the raw soil moisture value (Between 200 and 2000)
 uint16_t get_soil_moisture(){
     soil_sensor_init();
     uint16_t moisture = 0;
